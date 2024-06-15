@@ -5,20 +5,6 @@ export default async function UserList() {
   const res = await getTotalData();
   const data = await res.json();
   const usersData = await data?.total;
-  // const [data, setData] = useState<userDataType[]>([]);
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     try {
-  //       const res = await fetch('/api/total');
-  //       const data = await res.json();
-  //       setData(data.total);
-  //     } catch (e) {
-  //       console.log('error');
-  //     }
-  //   }
-  //   fetchData();
-  // }, []);
-  // console.log({ data });
   return (
     <section>
       <div className="overflow-x-auto">
