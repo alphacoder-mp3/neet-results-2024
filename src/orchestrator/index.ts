@@ -78,3 +78,31 @@ app.get("/total", async (req, res) => {
   });
   res.json({ len: total.length, total });
 });
+
+app.get("/total-paginated", async (req, res) => {
+  const { page = 1, limit = 10 } = req.query;
+
+  const pageInt = parseInt(page, 10);
+  const limitInt = parseInt(limit, 10);
+  const offset = (pageInt - 1) * limitInt;
+
+  const total = await db.result.findMany({
+    where: {
+      marks: {
+        not: null
+      }
+    },
+    skip: offset,
+    take: limitInt,
+  });
+
+  const totalCount = await db.result.count({
+    where: {
+      marks: {
+        not: null
+      }
+    }
+  });
+
+  res.json({ len: totalCount, total, page: pageInt, limit: limitInt });
+});
