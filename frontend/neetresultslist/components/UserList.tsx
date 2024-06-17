@@ -8,15 +8,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-export default function UserList({
-  page,
-  limit,
-  usersData,
-}: {
-  page: string;
-  limit: string;
-  usersData: userDataType[];
-}) {
+export default function UserList({ usersData }: { usersData: userDataType[] }) {
   return (
     <section>
       <div className="overflow-x-auto">

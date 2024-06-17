@@ -2,6 +2,7 @@ import UserList from '@/components/UserList';
 import { Pagination } from '@/components/pagination';
 import { ModeToggle } from '@/components/ui/modetoggle';
 import { getTotalData } from '@/actions/getPaginatedUsersData';
+import { Redirection } from '@/components/Redirection';
 
 export default async function Home({
   searchParams,
@@ -22,7 +23,8 @@ export default async function Home({
       <label className="font-semibold text-2 text-white dark:text-black p-2 mb-10 text-center rounded-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
         NEET CANDIDATE RESULTS
       </label>
-      <UserList page={page as string} limit={limit} usersData={data?.total} />
+      <Redirection page={page as string} totalPages={data.totalPages} />
+      <UserList usersData={data?.total} />
       <Pagination {...searchParams} {...data} />
     </main>
   );

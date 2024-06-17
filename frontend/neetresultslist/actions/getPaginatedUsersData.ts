@@ -26,13 +26,16 @@ export async function getTotalData(page = '1', limit = '10') {
 
     const paginatedData = data.total.slice(startIndex, endIndex);
 
+    const totalPages = Math.ceil(data.total.length / limitInt);
+    const hasNextPage = pageInt < totalPages;
+
     return NextResponse.json({
       len: data.len,
       total: paginatedData,
       page: pageInt,
       limit: limitInt,
-      hasNextPage: page + limit < data.total.length,
-      totalPages: Math.ceil(data.total.length / Number(page)),
+      hasNextPage,
+      totalPages,
     });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

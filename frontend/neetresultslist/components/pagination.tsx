@@ -60,7 +60,9 @@ export const Pagination = (props: PaginationProps) => {
       <Link
         className={cn(
           'rounded-md border border-gray-300 dark:border-gray-800 px-3 py-2 text-sm font-medium hover:bg-gray-50 hover:dark:bg-slate-800',
-          currentPage === 1 ? 'pointer-events-none bg-gray-100' : ''
+          currentPage === 1
+            ? 'pointer-events-none bg-gray-100 dark:bg-gray-800'
+            : ''
         )}
         href={`?page=${currentPage - 1}`}
       >
@@ -108,7 +110,7 @@ export const Pagination = (props: PaginationProps) => {
       <Link
         className={cn(
           'rounded-md border border-gray-300 dark:border-gray-800 px-3 py-2 text-sm font-medium hover:bg-gray-50 hover:dark:bg-slate-800',
-          !hasNextPage ? 'pointer-events-none bg-gray-100' : ''
+          !hasNextPage ? 'pointer-events-none bg-gray-100 dark:bg-gray-800' : ''
         )}
         href={`?page=${currentPage + 1}`}
       >

@@ -82,8 +82,8 @@ app.get("/total", async (req, res) => {
 app.get("/total-paginated", async (req, res) => {
   const { page = 1, limit = 10 } = req.query;
 
-  const pageInt = parseInt(page, 10);
-  const limitInt = parseInt(limit, 10);
+  const pageInt = parseInt(page as string, 10);
+  const limitInt = parseInt(limit as string, 10);
   const offset = (pageInt - 1) * limitInt;
 
   const total = await db.result.findMany({
