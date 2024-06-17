@@ -31,17 +31,17 @@ export default function Loading() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {Array.from({ length: 15 })?.map((item, index) => {
+              {Array.from({ length: 20 })?.map((item, index) => {
                 return (
                   <TableRow key={index}>
-                    <TableCell className="border border-gray-800 px-4 py-2">
-                      <Skeleton className="w-[250px] h-10" />
+                    <TableCell className="border border-gray-800 px-4 py-2 h-10 w-[500px]">
+                      <Skeleton className="h-5 w-[100px] sm:w-[120px] md:w-[400px]" />
                     </TableCell>
-                    <TableCell className="border border-gray-800 px-4 py-2">
-                      <Skeleton className="w-[250px] h-10" />
+                    <TableCell className="border border-gray-800 px-4 py-2 h-10 w-[150px]">
+                      <Skeleton className="h-5 w-[70px] sm:w-[80px] md:w-[100px]" />
                     </TableCell>
-                    <TableCell className="border border-gray-800 px-4 py-2">
-                      <Skeleton className="w-[250px] h-10" />
+                    <TableCell className="border border-gray-800 px-4 py-2 h-10 w-[100px]">
+                      <Skeleton className="h-5 w-[30px] sm:w-[40px] md:w-[60px]" />
                     </TableCell>
                   </TableRow>
                 );

@@ -1,5 +1,4 @@
 import { userDataType } from '@/types/UserDataTypes';
-import { getTotalData } from '@/actions/getUsersData';
 import {
   Table,
   TableBody,
@@ -9,10 +8,15 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-export default async function UserList(): Promise<JSX.Element> {
-  const res = await getTotalData();
-  const data = await res.json();
-  const usersData = await data?.total;
+export default function UserList({
+  page,
+  limit,
+  usersData,
+}: {
+  page: string;
+  limit: string;
+  usersData: userDataType[];
+}) {
   return (
     <section>
       <div className="overflow-x-auto">
@@ -36,13 +40,13 @@ export default async function UserList(): Promise<JSX.Element> {
               const match = string.match(/\d+/);
               return (
                 <TableRow key={item.id}>
-                  <TableCell className="border border-gray-800 px-4 py-2 h-10 min-w-3.5">
+                  <TableCell className="border border-gray-800 px-4 py-2 h-10 w-[500px]">
                     {item.candidateName}
                   </TableCell>
-                  <TableCell className="border border-gray-800 px-4 py-2 h-10 min-w-1.5">
+                  <TableCell className="border border-gray-800 px-4 py-2 h-10 w-[150px]">
                     {item.allIndiaRank}
                   </TableCell>
-                  <TableCell className="border border-gray-800 px-4 py-2 h-10 min-w-0.5">
+                  <TableCell className="border border-gray-800 px-4 py-2 h-10 w-[100px]">
                     {match ? parseInt(match[0]) : ''}
                   </TableCell>
                 </TableRow>
