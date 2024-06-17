@@ -1,41 +1,55 @@
 import { userDataType } from '@/types/UserDataTypes';
 import { getTotalData } from '@/actions/getUsersData';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 
-export default async function UserList() {
+export default async function UserList(): Promise<JSX.Element> {
   const res = await getTotalData();
   const data = await res.json();
   const usersData = await data?.total;
   return (
     <section>
       <div className="overflow-x-auto">
-        <table className="table-auto border-collapse border border-gray-800">
-          <thead>
-            <tr>
-              <th className="border border-gray-800 px-4 py-2">Name</th>
-              <th className="border border-gray-800 px-4 py-2">Rank</th>
-              <th className="border border-gray-800 px-4 py-2">Marks</th>
-            </tr>
-          </thead>
-          <tbody>
+        <Table className="table-auto border-collapse border border-gray-800">
+          <TableHeader>
+            <TableRow>
+              <TableHead className="border border-gray-800 px-4 py-2">
+                Name
+              </TableHead>
+              <TableHead className="border border-gray-800 px-4 py-2">
+                Rank
+              </TableHead>
+              <TableHead className="border border-gray-800 px-4 py-2">
+                Marks
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
             {usersData?.map((item: userDataType) => {
               const string = item.marks;
               const match = string.match(/\d+/);
               return (
-                <tr key={item.id}>
-                  <td className="border border-gray-800 px-4 py-2">
+                <TableRow key={item.id}>
+                  <TableCell className="border border-gray-800 px-4 py-2 h-10 min-w-3.5">
                     {item.candidateName}
-                  </td>
-                  <td className="border border-gray-800 px-4 py-2">
+                  </TableCell>
+                  <TableCell className="border border-gray-800 px-4 py-2 h-10 min-w-1.5">
                     {item.allIndiaRank}
-                  </td>
-                  <td className="border border-gray-800 px-4 py-2">
+                  </TableCell>
+                  <TableCell className="border border-gray-800 px-4 py-2 h-10 min-w-0.5">
                     {match ? parseInt(match[0]) : ''}
-                  </td>
-                </tr>
+                  </TableCell>
+                </TableRow>
               );
             })}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </div>
     </section>
   );

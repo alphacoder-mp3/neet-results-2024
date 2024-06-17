@@ -7,7 +7,7 @@ export default async function Home() {
       <div className="absolute top-2 right-2">
         <ModeToggle />
       </div>
-      <label className="font-semibold text-2 p-2 mb-10 text-center rounded-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+      <label className="font-semibold text-2 text-white dark:text-black p-2 mb-10 text-center rounded-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
         NEET CANDIDATE RESULTS
       </label>
       <UserList />
