@@ -9,13 +9,20 @@ export const Redirection = ({
   totalPages: number;
 }) => {
   const router = useRouter();
+  const pageNumber = Number(page);
+
   useEffect(() => {
-    if (Number(page) < 0 || Number(page) > totalPages) {
+    if (
+      !page ||
+      isNaN(pageNumber) ||
+      pageNumber < 1 ||
+      pageNumber > totalPages
+    ) {
       router.push(`?page=1`);
     }
-  }, [router]);
+  }, [page, totalPages, router]);
 
-  if (Number(page) < 0 || Number(page) > totalPages) {
+  if (!page || isNaN(pageNumber) || pageNumber < 1 || pageNumber > totalPages) {
     return <h1> There's no data for the given page range. Redirecting...</h1>;
   }
 
