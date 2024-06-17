@@ -1,15 +1,16 @@
 'use server';
 
 import { NextResponse } from 'next/server';
+import { userDataType } from '@/types/UserDataTypes';
 
-export async function getTotalData(page = '1', limit = '10') {
+export async function getTotalData(page = '1', limit = '10', search = '') {
   try {
     // Fetch all data from the API
     const res = await fetch('https://neet-orchestrator.100xdevs.com/total', {
       headers: {
         'Content-Type': 'application/json',
       },
-      cache: 'no-cache',
+      cache: 'no-store',
     });
 
     if (!res.ok) {
@@ -24,9 +25,16 @@ export async function getTotalData(page = '1', limit = '10') {
     const startIndex = (pageInt - 1) * limitInt;
     const endIndex = startIndex + limitInt;
 
-    const paginatedData = data.total.slice(startIndex, endIndex);
+    let filteredData = data.total;
+    if (search) {
+      filteredData = filteredData.filter((user: userDataType) =>
+        user.candidateName.toLowerCase().includes(search.toLowerCase())
+      );
+    }
 
-    const totalPages = Math.ceil(data.total.length / limitInt);
+    const paginatedData = filteredData.slice(startIndex, endIndex);
+
+    const totalPages = Math.ceil(filteredData.length / limitInt);
     const hasNextPage = pageInt < totalPages;
 
     return NextResponse.json({

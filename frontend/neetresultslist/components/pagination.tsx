@@ -8,11 +8,15 @@ type PaginationProps = {
   page?: string;
   totalPages: number;
   hasNextPage: boolean;
+  search?: string;
 };
 
-export const Pagination = (props: PaginationProps) => {
-  const { page = 1, totalPages, hasNextPage } = props;
-
+export const Pagination = ({
+  page = '1',
+  totalPages,
+  hasNextPage,
+  search = '',
+}: PaginationProps) => {
   const currentPage = Math.min(Math.max(Number(page), 1), totalPages);
 
   const getPagesToShow = () => {
@@ -21,9 +25,9 @@ export const Pagination = (props: PaginationProps) => {
 
     if (currentPage <= 3) {
       startPage = 1;
-      endPage = 5;
+      endPage = Math.min(5, totalPages); // Ensure not to exceed totalPages
     } else if (currentPage >= totalPages - 2) {
-      startPage = totalPages - 4;
+      startPage = Math.max(totalPages - 4, 1); // Ensure not to go below page 1
       endPage = totalPages;
     }
 
@@ -35,38 +39,37 @@ export const Pagination = (props: PaginationProps) => {
 
   const pages = getPagesToShow();
 
-  const getMobilePages = () => {
-    let startPage = currentPage;
-    let endPage = currentPage + 1;
-
-    if (currentPage <= 1) {
-      startPage = 1;
-      endPage = 1;
-    } else if (currentPage >= totalPages - 2) {
-      startPage = totalPages - 4;
-      endPage = totalPages;
-    }
-
-    return Array.from(
-      { length: endPage - startPage + 1 },
-      (_, i) => startPage + i
-    );
+  const buildUrl = (pageNumber: number) => {
+    const queryParams = new URLSearchParams();
+    queryParams.set('page', pageNumber.toString());
+    if (search) queryParams.set('search', search);
+    return `?${queryParams.toString()}`;
   };
 
-  const mobilePages = getMobilePages();
-
   return (
-    <div className="flex items-center justify-center space-x-6 mt-8">
+    <div className="flex items-center justify-center space-x-1 sm:space-x-6 mt-8">
       <Link
         className={cn(
-          'rounded-md border border-gray-300 dark:border-gray-800 px-3 py-2 text-sm font-medium hover:bg-gray-50 hover:dark:bg-slate-800',
+          'hidden sm:block rounded-md border border-gray-300 dark:border-gray-800 px-3 py-2 text-sm font-medium hover:bg-gray-50 hover:dark:bg-slate-800',
           currentPage === 1
             ? 'pointer-events-none bg-gray-100 dark:bg-gray-800'
             : ''
         )}
-        href={`?page=${currentPage - 1}`}
+        href={buildUrl(currentPage - 1)}
       >
         Previous
+      </Link>
+
+      <Link
+        className={cn(
+          'block sm:hidden rounded-md border border-gray-300 dark:border-gray-800 px-3 py-2 text-xs font-medium hover:bg-gray-50 hover:dark:bg-slate-800',
+          currentPage === 1
+            ? 'pointer-events-none bg-gray-100 dark:bg-gray-800'
+            : ''
+        )}
+        href={buildUrl(currentPage - 1)}
+      >
+        &lt;
       </Link>
 
       <nav
@@ -77,30 +80,14 @@ export const Pagination = (props: PaginationProps) => {
           <Link
             key={p}
             className={cn(
-              'hidden relative sm:inline-flex items-center border border-gray-300 dark:border-gray-800 px-4 py-2 text-sm font-medium hover:bg-gray-50 hover:dark:bg-slate-800',
+              'relative inline-flex items-center border border-gray-300 dark:border-gray-800 px-4 py-2 text-xs sm:text-sm font-medium hover:bg-gray-50 hover:dark:bg-slate-800',
               p === currentPage
                 ? 'pointer-events-none bg-gray-200 dark:bg-gray-700'
                 : '',
               i === 0 ? 'rounded-l-md' : '',
               i === pages.length - 1 ? 'rounded-r-md' : ''
             )}
-            href={`?page=${p}`}
-          >
-            {p}
-          </Link>
-        ))}
-        {mobilePages.map((p, i) => (
-          <Link
-            key={p}
-            className={cn(
-              'sm:hidden relative inline-flex items-center border border-gray-300 dark:border-gray-800 px-4 py-2 text-sm font-medium hover:bg-gray-50 hover:dark:bg-slate-800',
-              p === currentPage
-                ? 'pointer-events-none bg-gray-200 dark:bg-gray-700'
-                : '',
-              i === 0 ? 'rounded-l-md' : '',
-              i === pages.length - 1 ? 'rounded-r-md' : ''
-            )}
-            href={`?page=${p}`}
+            href={buildUrl(p)}
           >
             {p}
           </Link>
@@ -109,10 +96,22 @@ export const Pagination = (props: PaginationProps) => {
 
       <Link
         className={cn(
-          'rounded-md border border-gray-300 dark:border-gray-800 px-3 py-2 text-sm font-medium hover:bg-gray-50 hover:dark:bg-slate-800',
+          'block sm:hidden rounded-md border border-gray-300 dark:border-gray-800 px-3 py-2 text-xs font-medium hover:bg-gray-50 hover:dark:bg-slate-800',
+          currentPage === 1
+            ? 'pointer-events-none bg-gray-100 dark:bg-gray-800'
+            : ''
+        )}
+        href={buildUrl(currentPage - 1)}
+      >
+        &gt;
+      </Link>
+
+      <Link
+        className={cn(
+          'hidden sm:block rounded-md border border-gray-300 dark:border-gray-800 px-3 py-2 text-sm font-medium hover:bg-gray-50 hover:dark:bg-slate-800',
           !hasNextPage ? 'pointer-events-none bg-gray-100 dark:bg-gray-800' : ''
         )}
-        href={`?page=${currentPage + 1}`}
+        href={buildUrl(currentPage + 1)}
       >
         Next
       </Link>

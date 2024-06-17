@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ThemeProvider } from '@/components/theme-provider';
+import { ModeToggle } from '@/components/ui/modetoggle';
 import { Inter } from 'next/font/google';
 import './globals.css';
 
@@ -24,6 +25,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <div className="absolute top-2 right-2">
+            <ModeToggle />
+          </div>
           {children}
         </ThemeProvider>
       </body>

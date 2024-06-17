@@ -39,7 +39,7 @@ export default function UserList({ usersData }: { usersData: userDataType[] }) {
                     {item.allIndiaRank}
                   </TableCell>
                   <TableCell className="border border-gray-800 px-4 py-2 h-10 w-[100px]">
-                    {match ? parseInt(match[0]) : ''}
+                    {match ? parseInt(match[0]) : 'Absent'}
                   </TableCell>
                 </TableRow>
               );
